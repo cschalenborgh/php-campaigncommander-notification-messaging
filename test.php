@@ -18,7 +18,6 @@ $ev->addDynamicValue('username', 'Administrator');
 $ev->addDynamicValue('profileurl', 'http://www.website.com');
 $ev->removeDynamicValue('blaat');
 
-
 //$ev->setMailText('text mail goes here');
 $ev->setMailHtml('<h1>Html mail</h1><p>Lorem ipsum</p>');
 $ev->setDebug(true);

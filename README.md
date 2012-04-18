@@ -27,13 +27,13 @@
 * setEmailRecipient (+ get)
 > Set the email address to which you wish to send the notification message
 
-* addDynamicValue (+ get)
+* addDynamicValue
 > Adds a value to the 'dynamic personalization parameters' array. Use this for setting the subject, sender name, etc.
 
-* removeDynamicValue (+ get)
+* removeDynamicValue
 > Remove a value from the 'dynamic personalization parameters' array.
 
-* returnDynamicValues (+ get)
+* returnDynamicValues
 > Get a list of all defined dynamic values.
 
 * setMailHtml (+ get)
