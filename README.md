@@ -2,7 +2,7 @@
 > Campaign Commander™ Notification Messaging API Service: These APIs allow you to create and update Notification Messages and configure when they will be sent.
 
 ## php-campaigncommander-notifcation-messaging class
-> php-campaigncommander-notifcation-messaging class is a PHP wrapper class for using the Campaign Commander™ Notification Messaging API Services (https://pushover.net) REST API. Download their docs for more info regarding this API. This wrapper class makes is easy to send mails through their email systems, using your favorite template, tracking all clicks, etc
+> php-campaigncommander-notifcation-messaging class is a PHP wrapper class for using the Campaign Commander™ Notification Messaging API Services. Download their docs for more info regarding this API. This wrapper class makes is easy to send mails through their email systems, using your favorite template, tracking all clicks, etc
 
 ## Methods
 
