@@ -4,27 +4,45 @@
  * @version 0.1
  */ 
  
-include('CampaignCommanderNM.php');
 
-$ev = new CampaignCommanderNM();
-$ev->setEncryptToken('encrypt-token');
-$ev->setRandomToken('random-token');
-$ev->setNotificationId('notification-id');
-$ev->setEmailRecipient('user@email.com');
+$users = array(
+	array('username' => 'User1', 'email' => 'user1@hotmail.com'),
+	array('username' => 'User2', 'email' => 'user2@msn.com'),
+	array('username' => 'User3', 'email' => 'user3@facebook.com'), 	
+);
 
-$ev->addDynamicValue('subject', 'Test subject');
-$ev->addDynamicValue('blaat', 'value');
-$ev->addDynamicValue('username', 'Administrator');
-$ev->addDynamicValue('profileurl', 'http://www.website.com');
-$ev->removeDynamicValue('blaat');
 
-//$ev->setMailText('text mail goes here');
-$ev->setMailHtml('<h1>Html mail</h1><p>Lorem ipsum</p>');
-$ev->setDebug(true);
+include('CampaignCommanderNMP.php');
 
-$go = $ev->send();
+$batch = new NMPBatch();
+
+/* SEND MAILS */
+foreach($users as $k=>$v) {
+	/* CREATE NEW EMAIL */
+	$email = new NMPMessage();
+	$email->setEncryptToken('encrypt-token');
+	$email->setRandomToken('random-token');
+	$email->setNotificationId('notification-id');
+	$email->setEmailRecipient($v['email']);
+	
+	$email->addDynamicValue('subject', 'Test subject for ' .$v['username']);
+	$email->addDynamicValue('blaat', 'value');
+	$email->removeDynamicValue('blaat');
+	$email->addDynamicValue('username', $v['username']);
+	$email->addDynamicValue('profileurl', 'http://www.website.com');
+	
+	//$email->setMailText('text mail goes here');
+	$email->setMailHtml('<h1>Html mail for ' .$v['username']. '</h1><p>Lorem ipsum</p>');
+
+	/* NOW ADD MAIL TO BATCH */
+	$batch->addMessage($email);
+}
+
+/* SEND BATCH */
+$batch->setDebug(true);
+$batch = $batch->send();
 
 echo '<pre>';
-print_r($go);
+var_dump($batch);
 echo '</pre>';
 ?>

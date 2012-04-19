@@ -4,13 +4,10 @@
 ## php-campaigncommander-notifcation-messaging class
 > php-campaigncommander-notifcation-messaging class is a PHP wrapper class for using the Campaign Commander™ Notification Messaging API Services. Download their docs for more info regarding this API. This wrapper class makes is easy to send mails through their email systems, using your favorite template, tracking all clicks, etc
 
-## Methods
+## Methods for NMPMessage
 
 * setNotificationId (+ get)
 > Set the ID of the template.
-
-* setDebug (+ get)
-> Set debug mode. True for returning API output. False for just true/false.
 
 * setEncryptToken (+ get)
 > Set the encrypt value provided in the interface.
@@ -41,6 +38,14 @@
 
 * setMailText (+ get)
 > Set the Text mail content. Key = 2
+
+## Methods for NMPBatch
+
+* addMessage
+> Adds a NMPMessage to the batch array
+
+* setDebug (+ get)
+> Set debug mode. True for returning API output. False for just true/false.
 
 * send
 > Send the message to the API.
