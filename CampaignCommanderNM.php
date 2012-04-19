@@ -5,7 +5,7 @@
  * PHP class for using the Emailvision CampaignCommander Notification Messaging API Service
  * 
  * @author Chris Schalenborgh <chris.s@kryap.com>
- * @version 0.1
+ * @version 0.2
  * @package php-campaigncommander-notifcation-messaging
  * @license BSD License
  */ 
@@ -21,6 +21,13 @@ class CampaignCommanderNM
 	 * @var bool
 	 */
 	private $_debug;
+	
+	/**
+	 * Messages array, for sending out batches of messages through 1 request
+	 *
+	 * @var array
+	 */
+	private $_messages;
 	
 	/**
 	 * The ID of the template
@@ -319,14 +326,23 @@ class CampaignCommanderNM
     }
 
 	/**
-	 * Send to Emailvision API
+	 * Add message to message array
 	 * 
-	 * @return bool
+	 * @param string $message
 	 */
-	public function send() {			
-			$xml = '<?xml version="1.0" encoding="UTF-8"?>
-		<MultiSendRequest>
-			<sendrequest>
+    public function addMessage ($message) {
+        $this->_messages[] = $message;
+    }
+
+	/**
+	 * Returns all messages
+	 * 
+	 * @return array
+	 */
+    public function getMessages () {
+    	$output = '';
+    	foreach($this->_messages as $val) {
+    		$output .= '<sendrequest>
 				<dyn>';
 				
 				$kpv = $this->returnDynamicValues();
@@ -364,15 +380,32 @@ class CampaignCommanderNM
 				<senddate>' .$this->getEmailTime(). '</senddate>
 				<synchrotype>' .$this->getSyncType(). '</synchrotype>
 				<uidkey>' .$this->getSyncKey(). '</uidkey>
-			</sendrequest>
+			</sendrequest>';
+    	}
+        return $output;
+    }
+    
+
+	/**
+	 * Send to Emailvision API
+	 * 
+	 * @return bool
+	 */
+	public function send() {			
+			$xml = '<?xml version="1.0" encoding="UTF-8"?>
+		<MultiSendRequest>
+		' .$this->getMessages(). '
 		</MultiSendRequest>';
 		//		
 		
 		$curl = curl_init(self::API_URL);
 		$curl_post_data = array($xml);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		$curl_response = curl_exec($curl);
 		curl_close($curl);
 		
